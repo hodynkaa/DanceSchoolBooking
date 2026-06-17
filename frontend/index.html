@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harmonogram Zajęć - Szkoła Tańca</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <header class="app-header">
+            <h1>Harmonogram Zajęć</h1>
+            <p>Zarezerwuj swoje ulubione zajęcia taneczne</p>
+        </header>
+
+        <section class="filters-section">
+            <div class="filter-group">
+                <label for="category">Kategoria</label>
+                <select id="category">
+                    <option value="">Wszystkie</option>
+                    <option value="hiphop">Hip Hop</option>
+                    <option value="heels">High Heels</option>
+                    <option value="jazz">Modern Jazz</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="level">Poziom</label>
+                <select id="level">
+                    <option value="">Wszystkie</option>
+                    <option value="beg">Początkujący</option>
+                    <option value="int">Średniozaawansowany</option>
+                    <option value="adv">Zaawansowany</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="instructor">Instruktor</label>
+                <select id="instructor">
+                    <option value="">Wszyscy</option>
+                    <option value="1">Kateryna Hodyna</option>
+                    <option value="2">Mariana Koliada</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="date">Data</label>
+                <input type="date" id="date">
+            </div>
+        </section>
+
+        <main class="calendar-grid">
+
+            <article class="dance-card">
+                <div class="card-time">18:00 - 19:15</div>
+                <div class="card-info">
+                    <span class="badge badge-heels">High Heels</span>
+                    <span class="level-text">Średniozaawansowany</span>
+                    <h3>Sensual Choreo</h3>
+                    <p class="instructor-name">Instruktor: Kateryna H.</p>
+                </div>
+                <div class="card-footer">
+                    <div class="spots-status status-low">
+                        Ostatnie 3 miejsca!
+                    </div>
+                    <button class="btn-primary">Zarezerwuj</button>
+                </div>
+            </article>
+
+            <article class="dance-card card-full">
+                <div class="card-time">19:30 - 20:45</div>
+                <div class="card-info">
+                    <span class="badge badge-hiphop">Hip Hop</span>
+                    <span class="level-text">Początkujący</span>
+                    <h3>Urban Groove</h3>
+                    <p class="instructor-name">Instruktor: Mariana K.</p>
+                </div>
+                <div class="card-footer">
+                    <div class="spots-status status-full">
+                        Brak miejsc (2 w kolejce)
+                    </div>
+                    <button class="btn-secondary">Dołącz do rezerwy</button>
+                </div>
+            </article>
+
+            <article class="dance-card">
+                <div class="card-time">21:00 - 22:00</div>
+                <div class="card-info">
+                    <span class="badge badge-jazz">Contemporary</span>
+                    <span class="level-text">Zaawansowany</span>
+                    <h3>Floorwork Technika</h3>
+                    <p class="instructor-name">Instruktor: Diana B.</p>
+                </div>
+                <div class="card-footer">
+                    <div class="spots-status status-free">
+                        Dostępne miejsca
+                    </div>
+                    <button class="btn-primary">Zarezerwuj</button>
+                </div>
+            </article>
+
+        </main>
+    </div>
+
+</body>
+
+</html>
