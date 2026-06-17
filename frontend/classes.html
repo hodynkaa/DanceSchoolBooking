@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zajęcia - Szkoła Tańca</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        #auth-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-welcome {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        #auth-nav .btn-secondary,
+        #auth-nav button {
+            width: auto;
+            display: inline-block;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header class="header-container">
+            <div>
+                <h1>Dostępne Zajęcia</h1>
+            </div>
+            <div id="auth-nav">
+                <a href="login.html" class="btn-secondary">Zaloguj się</a>
+            </div>
+        </header>
+
+        <main class="calendar-grid" id="classes-container">
+            <div style="text-align: center; grid-column: 1/-1; color: var(--text-muted); font-weight: 500;">
+                Ładowanie zajęć з bazy danych...
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            checkAuth();
+            loadClasses();
+        });
+
+        function checkAuth() {
+            const authNav = document.getElementById('auth-nav');
+            const userId = localStorage.getItem('userId');
+            const userName = localStorage.getItem('userName');
+
+            if (userId && userName) {
+                authNav.innerHTML = `
+                    <span class="user-welcome">Cześć, ${userName}! 👋</span>
+                    <button id="logout-btn" class="btn-secondary">Wyloguj się</button>
+                `;
+                document.getElementById('logout-btn').addEventListener('click', function () {
+                    localStorage.clear();
+                    window.location.reload();
+                });
+            }
+        }
+
+        function loadClasses() {
+            fetch('http://localhost:8080/api/classes')
+                .then(response => {
+                    if (!response.ok) throw new Error('Nie udało się pobrać zajęć.');
+                    return response.json();
+                })
+                .then(classes => {
+                    renderClasses(classes);
+                })
+                .catch(error => {
+                    console.error(error);
+                    document.getElementById('classes-container').innerHTML = `
+                        <div style="text-align: center; grid-column: 1/-1; color: var(--status-full); font-weight: 700;">
+                            Błąd ładowania danych z backendu. Upewnij się, że serwer działa.
+                        </div>`;
+                });
+        }
+
+        function renderClasses(classes) {
+            const container = document.getElementById('classes-container');
+            container.innerHTML = '';
+
+            if (classes.length === 0) {
+                container.innerHTML = '<div style="text-align: center; grid-column: 1/-1;">Brak zaplanowanych zajęć.</div>';
+                return;
+            }
+
+            classes.forEach(c => {
+                const card = document.createElement('div');
+                card.className = 'dance-card';
+
+                card.innerHTML = `
+                    <div class="card-time">${c.dayOfWeek || 'Dzień'}, ${c.time || 'Godzina'}</div>
+                    <div class="card-info">
+                        <span class="badge badge-jazz">${c.style || 'Taniec'}</span>
+                        <span class="level-text">${c.level || 'Poziom'}</span>
+                        <h3>${c.name}</h3>
+                        <p class="instructor-name">Instruktor: ${c.instructorName || 'Brak'}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="spots-status status-free">Dostępne miejsca: ${c.spotsAvailable}</div>
+                        <button class="btn-primary" onclick="bookClass(${c.id})">Zarezerwuj</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function bookClass(classId) {
+            const userId = localStorage.getItem('userId');
+
+            if (!userId) {
+                alert('Aby zarezerwować zajęcia, musisz się zalogować!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            fetch('http://localhost:8080/api/reservations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: parseInt(userId),
+                    classId: parseInt(classId)
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Rezerwacja udana!');
+                        loadClasses();
+                    } else {
+                        throw new Error('Błąd podczas dokonywania rezerwacji.');
+                    }
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+        }
+    </script>
+</body>
+
+</html>

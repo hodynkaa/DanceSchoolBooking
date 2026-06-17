@@ -6,106 +6,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Harmonogram Zajęć - Szkoła Tańca</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        #auth-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-welcome {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        #auth-nav .btn-secondary,
+        #auth-nav button {
+            width: auto;
+            display: inline-block;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
 
-    <div class="app-container">
-
-        <header class="app-header">
-            <h1>Harmonogram Zajęć</h1>
-            <p>Zarezerwuj swoje ulubione zajęcia taneczne</p>
+    <div class="container">
+        <header class="header-container">
+            <div>
+                <h1>Harmonogram Zajęć</h1>
+            </div>
+            <div id="auth-nav">
+                <a href="login.html" class="btn-secondary">Zaloguj się</a>
+            </div>
         </header>
 
         <section class="filters-section">
-            <div class="filter-group">
-                <label for="category">Kategoria</label>
-                <select id="category">
-                    <option value="">Wszystkie</option>
-                    <option value="hiphop">Hip Hop</option>
-                    <option value="heels">High Heels</option>
-                    <option value="jazz">Modern Jazz</option>
-                </select>
-            </div>
+            <label for="style-filter">Styl:</label>
+            <select id="style-filter">
+                <option value="all">Wszystkie</option>
+                <option value="jazz">Jazz</option>
+                <option value="high-heels">High Heels</option>
+                <option value="hip-hop">Hip Hop</option>
+            </select>
 
-            <div class="filter-group">
-                <label for="level">Poziom</label>
-                <select id="level">
-                    <option value="">Wszystkie</option>
-                    <option value="beg">Początkujący</option>
-                    <option value="int">Średniozaawansowany</option>
-                    <option value="adv">Zaawansowany</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="instructor">Instruktor</label>
-                <select id="instructor">
-                    <option value="">Wszyscy</option>
-                    <option value="1">Kateryna Hodyna</option>
-                    <option value="2">Mariana Koliada</option>
-                </select>
-            </div>
-
-            <div class="filter-group">
-                <label for="date">Data</label>
-                <input type="date" id="date">
-            </div>
+            <label for="level-filter">Poziom:</label>
+            <select id="level-filter">
+                <option value="all">Wszystkie</option>
+                <option value="poczatkujacy">Początkujący</option>
+                <option value="sredniozaawansowany">Średniozaawansowany</option>
+            </select>
         </section>
 
-        <main class="calendar-grid">
+        <main class="calendar-grid" id="calendar-container">
+            <div class="dance-card">
+                <div class="card-time">Poniedziałek, 18:00 - 19:30</div>
+                <div class="card-info">
+                    <span class="badge badge-jazz">Jazz</span>
+                    <span class="level-text">Początkujący</span>
+                    <h3>Contemporary Jazz</h3>
+                    <p class="instructor-name">Instruktor: Anna Kowalska</p>
+                </div>
+                <div class="card-footer">
+                    <div class="spots-status status-free">Wolne miejsca: 8</div>
+                    <button class="btn-primary" onclick="bookClass(1)">Zapisz się</button>
+                </div>
+            </div>
 
-            <article class="dance-card">
-                <div class="card-time">18:00 - 19:15</div>
+            <div class="dance-card">
+                <div class="card-time">Wtorek, 19:30 - 21:00</div>
                 <div class="card-info">
                     <span class="badge badge-heels">High Heels</span>
                     <span class="level-text">Średniozaawansowany</span>
-                    <h3>Sensual Choreo</h3>
-                    <p class="instructor-name">Instruktor: Kateryna H.</p>
+                    <h3>High Heels Choreo</h3>
+                    <p class="instructor-name">Instruktor: Julia Nowak</p>
                 </div>
                 <div class="card-footer">
-                    <div class="spots-status status-low">
-                        Ostatnie 3 miejsca!
-                    </div>
-                    <button class="btn-primary">Zarezerwuj</button>
+                    <div class="spots-status status-low">Ostatnie miejsca: 2</div>
+                    <button class="btn-primary" onclick="bookClass(2)">Zapisz się</button>
                 </div>
-            </article>
+            </div>
 
-            <article class="dance-card card-full">
-                <div class="card-time">19:30 - 20:45</div>
+            <div class="dance-card card-full">
+                <div class="card-time">Środa, 17:00 - 18:30</div>
                 <div class="card-info">
                     <span class="badge badge-hiphop">Hip Hop</span>
                     <span class="level-text">Początkujący</span>
-                    <h3>Urban Groove</h3>
-                    <p class="instructor-name">Instruktor: Mariana K.</p>
+                    <h3>Hip Hop Groove</h3>
+                    <p class="instructor-name">Instruktor: Marek Wiśniewski</p>
                 </div>
                 <div class="card-footer">
-                    <div class="spots-status status-full">
-                        Brak miejsc (2 w kolejce)
-                    </div>
-                    <button class="btn-secondary">Dołącz do rezerwy</button>
+                    <div class="spots-status status-full">Brak miejsc</div>
+                    <button class="btn-secondary" disabled>Lista rezerwowa</button>
                 </div>
-            </article>
-
-            <article class="dance-card">
-                <div class="card-time">21:00 - 22:00</div>
-                <div class="card-info">
-                    <span class="badge badge-jazz">Contemporary</span>
-                    <span class="level-text">Zaawansowany</span>
-                    <h3>Floorwork Technika</h3>
-                    <p class="instructor-name">Instruktor: Diana B.</p>
-                </div>
-                <div class="card-footer">
-                    <div class="spots-status status-free">
-                        Dostępne miejsca
-                    </div>
-                    <button class="btn-primary">Zarezerwuj</button>
-                </div>
-            </article>
-
+            </div>
         </main>
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const authNav = document.getElementById('auth-nav');
+            const userId = localStorage.getItem('userId');
+            const userName = localStorage.getItem('userName');
+
+            if (userId && userName) {
+                authNav.innerHTML = `
+                    <span class="user-welcome">Cześć, ${userName}! 👋</span>
+                    <button id="logout-btn" class="btn-secondary">Wyloguj się</button>
+                `;
+
+                document.getElementById('logout-btn').addEventListener('click', function () {
+                    localStorage.clear();
+                    window.location.reload();
+                });
+            }
+        });
+
+        function bookClass(classId) {
+            const userId = localStorage.getItem('userId');
+
+            if (!userId) {
+                alert('Aby zapisać się na zajęcia, musisz się zalogować!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            alert(`Wysyłanie rezerwacji dla użytkownika ID: ${userId} na zajęcia ID: ${classId}`);
+        }
+    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
