@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejestracja - Szkoła Tańca</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+        }
+
+        :root {
+            --bg-color: #EAE5F3;
+            /* Насичений пастельно-лавандовий фон */
+            --card-bg: #FFFFFF;
+            --primary-color: #A392CC;
+            /* Яскрава, красива пастельна лаванда */
+            --primary-hover: #8D7AB8;
+            /* Глибокий бузковий для ефекту ховеру */
+            --text-main: #1A1326;
+            /* Чіткий, дуже темний чорничний колір тексту */
+            --text-muted: #433952;
+            /* Контрастний лавандово-сірий для підписів */
+            --input-border: #BBAECF;
+            /* Виразні лавандові межі полів */
+            --error-color: #D65A5A;
+            /* Яскравий червоно-рожевий для помилки */
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .auth-container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 420px;
+            padding: 45px 40px;
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(26, 19, 38, 0.08);
+            border: 1.5px solid rgba(163, 146, 204, 0.35);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .auth-header h1 {
+            font-size: 2.3rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+
+        .auth-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+        }
+
+        .form-group input,
+        .form-group select {
+            background-color: #FDFBFF;
+            border: 2px solid var(--input-border);
+            color: var(--text-main);
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.25s ease;
+            width: 100%;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--primary-color);
+            background-color: #FFFFFF;
+            box-shadow: 0 0 0 4px rgba(163, 146, 204, 0.25);
+        }
+
+        .error-message {
+            color: var(--error-color);
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .form-group.has-error input {
+            border-color: var(--error-color);
+            background-color: #FFF6F6;
+        }
+
+        .form-group.has-error .error-message {
+            display: block;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            background-color: var(--primary-color);
+            color: #FFFFFF;
+            box-shadow: 0 6px 20px rgba(163, 146, 204, 0.45);
+            transition: all 0.2s ease;
+            margin-top: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(163, 146, 204, 0.55);
+        }
+
+        .btn-submit:active {
+            transform: translateY(1px);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .auth-footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.2s ease;
+        }
+
+        .auth-footer a:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="auth-container">
+        <header class="auth-header">
+            <h1>Dołącz do nas</h1>
+            <p>Stwórz konto w szkole tańca</p>
+        </header>
+
+        <form id="register-form" novalidate>
+            <div class="form-group">
+                <label for="reg-name">Imię i nazwisko</label>
+                <input type="text" id="reg-name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="reg-email">Adres E-mail</label>
+                <input type="email" id="reg-email" required>
+            </div>
+
+            <div class="form-group" id="password-group">
+                <label for="reg-password">Hasło</label>
+                <input type="password" id="reg-password" required>
+                <div class="error-message">Hasło musi zawierać co najmniej 6 znaków.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="reg-role">Rola użytkownika</label>
+                <select id="reg-role" required>
+                    <option value="KLIENT">Klient</option>
+                    <option value="INSTRUKTOR">Instruktor</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-submit">Zarejestruj się</button>
+        </form>
+
+        <footer class="auth-footer">
+            Masz już konto? <a href="login.html">Zaloguj się</a>
+        </footer>
+    </div>
+
+    <script>
+        const form = document.getElementById('register-form');
+        const passwordInput = document.getElementById('reg-password');
+        const passwordGroup = document.getElementById('password-group');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+           
+            if (passwordInput.value.length < 6) {
+                passwordGroup.classList.add('has-error');
+                return;
+            } else {
+                passwordGroup.classList.remove('has-error');
+            }
+
+            
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const password = passwordInput.value;
+            const role = document.getElementById('reg-role').value;
+
+            
+            fetch('http://localhost:8080/api/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    password: password,
+                    role: role
+                })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        
+                        throw new Error('Rejestracja nie powiodła się. Być może ten email jest już zajęty.');
+                    }
+                })
+                .then(data => {
+                    alert('Rejestracja pomyślna! Teraz możesz się zalogować.');
+                    window.location.href = 'login.html'; 
+                })
+                .catch(error => {
+                    console.error('Błąd:', error);
+                    alert(error.message);
+                });
+        });
+
+        
+        passwordInput.addEventListener('input', function () {
+            if (passwordInput.value.length >= 6) {
+                passwordGroup.classList.remove('has-error');
+            }
+        });
+    </script>
+</body>
+
+</html>
